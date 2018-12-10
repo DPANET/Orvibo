@@ -1,0 +1,17 @@
+{
+  "name": "orvibo-app",
+  "version": "0.0.0",
+  "description": "OrviboApp",
+  "main": "app.js",
+  "author": {
+    "name": "Omar Bamatraf",
+    "email": "dpanet@yahoo.com"
+  },
+
+  "id": "com.athom.orvibo",
+  "sdk": 2,
+  "dependencies": {
+    "athom-cli": "^2.1.58",
+    "homey-meshdriver": "^1.2.28"
+  }
+}

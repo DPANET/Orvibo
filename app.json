@@ -1,0 +1,185 @@
+{
+    "id": "com.orvibo.orviboapp",
+    "version": "1.0.0",
+    "compatibility": "1.x >=1.5.0",
+    "sdk": 2,
+    "brandColor": "#FF0000",
+    "name": {
+        "en": "Orvibo"
+    },
+    "description": {
+        "en": "Adds support for Orvibo Smart Home devices."
+    },
+    "category": "appliances",
+    "tags": {
+        "en": [
+            "switch",
+            "sensor",
+            "light"
+        ]
+    },
+    "images": {
+        "large": "drivers/slide/assets/images/large.jpg",
+        "small": "drivers/slide/assets/images/small.jpg"
+    },
+    "permissions": [
+        "homey:manager:speech-output",
+        "homey:manager:ledring"
+    ],
+    "author": {
+        "email": "dpanet@hotmail.com",
+        "name": "Omar"
+    },
+    "bugs": {
+        "url": "https://github.com/DPANET/AxisGear/issues"
+    },
+    "signals": {},
+    "flow": {},
+    "drivers": [
+        {
+            "id": "switch-1",
+            "name": {
+                "en": "Orvibo Switch 1 Button"
+            },
+            "class": "socket",
+            "capabilities": [
+                "onoff"
+            ],
+            "images": {
+                "large": "/drivers/switch-1/assets/images/large.png",
+                "small": "/drivers/switch-1/assets/images/small.png"
+            },
+            "zigbee": {
+                "manufacturerName": "ORVIBO",
+                "manufacturerId": "ORVIBO",
+                "productId": "Gear",
+                "deviceId": 512,
+                "profileId": 260,
+                "learnmode": {
+                    "image": "/drivers/switch-1/assets/icon.svg",
+                    "instruction": {
+                        "en": "Press the Pair button for 5 seconds until the pair light blink"
+                    }
+                }
+            },
+            "pair": [
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ]
+        },
+        {
+            "id": "switch-2",
+            "name": {
+                "en": "Orvibo Switch 2 Button"
+            },
+            "class": "socket",
+            "capabilities": [
+                "onoff",
+                "onoff.1"
+            ],
+            "images": {
+                "large": "/drivers/switch-2/assets/images/large.png",
+                "small": "/drivers/switch-2/assets/images/small.png"
+            },
+            "zigbee": {
+                "manufacturerName": "ORVIBO",
+                "manufacturerId": "ORVIBO",
+                "productId": "Gear",
+                "deviceId": 512,
+                "profileId": 260,
+                "learnmode": {
+                    "image": "/drivers/switch-2/assets/icon.svg",
+                    "instruction": {
+                        "en": "Press the Pair button for 5 seconds until the pair light blink"
+                    }
+                }
+            },
+            "pair": [
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ]
+        },
+        {
+            "id": "motion-sensor",
+            "name": {
+                "en": "Movement Motion Sensor"
+            },
+            "class": "sensor",
+            "capabilities": [
+                "alarm_motion",
+                "measure_luminance",
+                "alarm_battery",
+                "measure_battery"
+            ],
+            "images": {
+                "large": "/drivers/motion-sensor/assets/images/large.png",
+                "small": "/drivers/motion-sensor/assets/images/small.png"
+            },
+            "zigbee": {
+                "manufacturerName": "ORVIBO",
+                "productId": "lumi.sensor_motion.aq2",
+                "deviceId": [
+                    260,
+                    263
+                ],
+                "profileId": 260,
+                "learnmode": {
+                    "image": "/drivers/motion-sensor/assets/icon.svg",
+                    "instruction": {
+                        "en": "Hold the sensor during inclusion in close proximity of Homey\nLong press the reset button for more than 3 seconds until the blue light flashes three times"
+                    }
+                }
+            },
+            "settings": [
+                {
+                  "id": "alarm_motion_reset_window",
+                  "type": "number",
+                  "label": {
+                    "en": "Disable motion alarm after"
+                  },
+                  "hint": {
+                    "en": "This setting will disable the motion alarm after the given time (in seconds) has expired. Every time motion is observed by the device it will reset this timeout.\nRange: 60 - 86400, default: 300 [s]"
+                  },
+                  "value": 300,
+                  "attr": {
+                    "min": 60,
+                    "max": 86400
+                  }
+                },
+                {
+                  "id": "battery_threshold",
+                  "type": "number",
+                  "label": {
+                    "en": "Battery alarm threshold (%)"
+                  },
+                  "hint": {
+                    "en": "Battery level (%) below which the battery alarm will be activated.\nRange: 1 - 90, \ndefault: 20 [%]"
+                  },
+                  "value": 20,
+                  "attr": {
+                    "min": 1,
+                    "max": 90
+                  }
+                }
+              ]
+        }
+    ]
+}
