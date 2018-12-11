@@ -8,6 +8,32 @@ class OrviboSensor extends ZigBeeDevice {
 		// Register attribute listener for occupancy
 		// this._attrReportListeners['0_msOccupancySensing'] = this._attrReportListeners['0_msOccupancySensing'] || {};
 		// this._attrReportListeners['0_msOccupancySensing']['occupancy'] = this.onOccupancyReport.bind(this);
+		try {
+			this.registerCapability('alarm_motion', 'msOccupancySensing', {
+				get: 'occupancy',
+				reportParser: value => value === 1
+			});
+
+
+		} catch (err) {
+			this.error('failed to registe mapping registerCapability ', err);
+		}
+
+		this.registerAttrReportListener(
+			'msOccupancySensing', // Cluster
+			'occupancy', // Attr
+			1, // Min report interval in seconds (must be greater than 1)
+			3600, // Max report interval in seconds (must be zero or greater than 60 and greater than min report interval)
+			0, // Report change value, if value changed more than this value send a report
+			this.onControlLevelChangeReport.bind(this)) // Callback with value
+				.then(() => {
+					// Registering attr reporting succeeded
+					this.log('registered attr report listener');
+				})
+				.catch(err => {
+					// Registering attr reporting failed
+					this.error('failed to register attr report listener', err);
+				});
 	}
 
 	onOccupancyReport(value) {
