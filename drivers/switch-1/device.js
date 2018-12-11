@@ -17,12 +17,20 @@ class SwitchSingleLN extends ZigBeeDevice {
                 setParser: () => ({}),
                 get: 'onOff',
                 reportParser: value => value === 1
-            });
+            }, endpoint[0]);
         } catch (err) {
-            this.error('failed to registe mapping registerCapability ', err);
+            this.error('failed to register mapping registerCapability ', err);
         }
         this.registerAttrReportListener('genOnOff', 'onOff', 1, 3600, 1,
-            this.onSwitchOnReport.bind(this), 0, true);
+            this.onSwitchOnReport.bind(this), 0, true)
+            .then(() => {
+                // Registering attr reporting succeeded
+                this.log('registered attr report listener');
+            })
+            .catch(err => {
+                // Registering attr reporting failed
+                this.error('failed to register attr report listener', err);
+            });;
     }
 
     onSwitchOnReport(value) {
