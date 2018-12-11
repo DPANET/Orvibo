@@ -52,8 +52,8 @@
             "zigbee": {
                 "manufacturerName": "ORVIBO",
                 "manufacturerId": "ORVIBO",
-                "productId": "Gear",
-                "deviceId": 512,
+                "productId": "ea78482667a7450ea131cc2acb9b88d8",
+                "deviceId": 0,
                 "profileId": 260,
                 "learnmode": {
                     "image": "/drivers/switch-1/assets/icon.svg",

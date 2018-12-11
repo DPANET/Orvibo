@@ -1,5 +1,5 @@
 'use strict';
-
+const Homey = require('homey');
 const ZigBeeDevice = require('homey-meshdriver').ZigBeeDevice;
 
 class OrviboSensor extends ZigBeeDevice {
@@ -8,6 +8,7 @@ class OrviboSensor extends ZigBeeDevice {
 		// Register attribute listener for occupancy
 		// this._attrReportListeners['0_msOccupancySensing'] = this._attrReportListeners['0_msOccupancySensing'] || {};
 		// this._attrReportListeners['0_msOccupancySensing']['occupancy'] = this.onOccupancyReport.bind(this);
+		
 		try {
 			this.registerCapability('alarm_motion', 'msOccupancySensing', {
 				get: 'occupancy',
@@ -25,7 +26,7 @@ class OrviboSensor extends ZigBeeDevice {
 			1, // Min report interval in seconds (must be greater than 1)
 			3600, // Max report interval in seconds (must be zero or greater than 60 and greater than min report interval)
 			0, // Report change value, if value changed more than this value send a report
-			this.onControlLevelChangeReport.bind(this)) // Callback with value
+			this.onOccupancyReport.bind(this),0) // Callback with value
 				.then(() => {
 					// Registering attr reporting succeeded
 					this.log('registered attr report listener');
@@ -40,6 +41,8 @@ class OrviboSensor extends ZigBeeDevice {
 		this.log('alarm_motion', value === 1);
 
 		// Set and clear motion timeout
+		try {
+			
 		clearTimeout(this.motionTimeout);
 		this.motionTimeout = setTimeout(() => {
 			this.log('manual alarm_motion reset');
@@ -48,6 +51,9 @@ class OrviboSensor extends ZigBeeDevice {
 
 		// Update capability value
 		this.setCapabilityValue('alarm_motion', value === 1);
+		} catch (error) {
+			this.error('failed to set value', err);
+		}
 	}
 }
 
