@@ -12,24 +12,27 @@ class SwitchSingleLN extends ZigBeeDevice {
         this.printNode();
         // this.log('Zigbee Added');
         try {
-            this.registerCapability('onoff', 'genOnOff', {
+            this.registerCapability('onOff', 'genOnOff', {
                 set: value => value ? 'on' : 'off',
                 setParser: () => ({}),
                 get: 'onOff',
-                reportParser: value => value === 1,
-                endpoint : 0
+                reportParser: value => value === 1
             });
         } catch (err) {
             this.error('failed to register mapping registerCapability ', err);
         }
 
+        // this.registerReportListener('genOnOff', 'onOff', report => {
+		// 	console.log(report);
+		// });
+
 		this.registerAttrReportListener(
-			'onoff', // Cluster
-			'genOnOff', // Attr
+			'genOnOff', // Cluster
+			'onOff', // Attr
 			1, // Min report interval in seconds (must be greater than 1)
 			3600, // Max report interval in seconds (must be zero or greater than 60 and greater than min report interval)
 			1, // Report change value, if value changed more than this value send a report
-			this.onSwitchOnReport.bind(this),0) // Callback with value
+			this.onSwitchOnReport.bind(this)) // Callback with value
 				.then(() => {
 					// Registering attr reporting succeeded
 					this.log('registered attr report listener');
